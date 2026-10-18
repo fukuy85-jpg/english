@@ -1,0 +1,9 @@
+{
+  "name": "my-green-pencil-case",
+  "version": "1.0.0",
+  "private": true,
+  "description": "My Green Pencil Case! えいごでオリジナルふでばこづくり",
+  "dependencies": {
+    "@netlify/blobs": "^8.1.0"
+  }
+}

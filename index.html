@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>My Green Pencil Case! えいごでオリジナルふでばこづくり</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="app-container">
+    <!-- Top Header: Simple Word Display + Controls -->
+    <header class="top-bar">
+      <div class="speech-left">
+        <button class="speaker-btn" id="repeatSpeechBtn" type="button" title="もういちどきく">
+          🔊
+        </button>
+        <div class="speech-text-wrap">
+          <div class="speech-english" id="speechEnglish">---</div>
+        </div>
+      </div>
+
+      <div class="top-controls">
+        <div class="speed-control" aria-label="はつおんのスピード">
+          <span class="speed-label">🔊 はつおん：</span>
+          <button class="speed-btn" data-rate="0.48" type="button">🐢 とてもゆっくり</button>
+          <button class="speed-btn active" data-rate="0.62" type="button">🐣 ゆっくり</button>
+          <button class="speed-btn" data-rate="0.78" type="button">🐰 すこしゆっくり</button>
+        </div>
+
+        <div class="stage-actions">
+          <button class="action-btn btn-read-all" id="readAllBtn" type="button">
+            🗣️ ぜんぶよむ
+          </button>
+          <button class="action-btn btn-clear" id="clearCaseBtn" type="button">
+            🧹 からにする
+          </button>
+          <button class="action-btn btn-finish" id="finishCaseBtn" type="button">
+            ✨ かんせい！
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Giant Center Green Pencil Case (No ZIP) -->
+    <main class="case-stage">
+      <div class="pencil-case-outer" id="pencilCaseOuter">
+        <div class="pencil-case-inner" id="pencilCaseInner">
+          <div class="case-mesh-pocket"></div>
+          <div class="case-holder-band"></div>
+
+          <div class="case-empty-guide" id="caseEmptyGuide">
+            <div class="empty-guide-title">⬇️ したから ぶんぼうぐを スライドして いれてね！</div>
+          </div>
+
+          <div class="case-counter-badge" id="caseCounterBadge">0</div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Bottom Tray: Color Bar + Draggable Stationery & 4 Stickers -->
+    <footer class="tray-container">
+      <div class="tray-header">
+        <div class="tray-tabs">
+          <button class="tray-tab active" id="tabStationery" type="button">
+            ✂️ ぶんぼうぐ
+          </button>
+          <button class="tray-tab" id="tabStickers" type="button">
+            ⭐ かざりシール
+          </button>
+        </div>
+
+        <div class="color-bar-wrap">
+          <span class="color-bar-label">🎨 いろ：</span>
+          <div class="color-palette" id="colorPalette"></div>
+        </div>
+      </div>
+
+      <div class="tray-scroll" id="trayScroll"></div>
+    </footer>
+  </div>
+
+  <!-- Completion & Send to Teacher Modal -->
+  <div class="modal-backdrop hidden" id="finishModal">
+    <div class="modal-card">
+      <h2 class="modal-title" id="modalTitle">✨ ふでばこが かんせい！ ✨</h2>
+
+      <!-- Step 1: Enter Name & Preview Image -->
+      <div id="submitStepBox" class="submit-step-box">
+        <div class="preview-image-wrap">
+          <img id="casePreviewImg" alt="かんせいしたふでばこ" />
+        </div>
+
+        <label class="name-input-label" for="studentNameInput">
+          ✏️ あなたの おなまえを いれてね：
+        </label>
+        <input
+          type="text"
+          id="studentNameInput"
+          class="name-input-field"
+          placeholder="れい：たなか たろう"
+          maxlength="24"
+          autocomplete="off"
+        />
+
+        <div class="modal-buttons">
+          <button class="action-btn btn-clear" id="modalCancelBtn" type="button">
+            ↩️ もどる
+          </button>
+          <button class="action-btn btn-send-teacher" id="sendToTeacherBtn" type="button">
+            📨 せんせいに おくる！
+          </button>
+        </div>
+      </div>
+
+      <!-- Step 2: Sent Confirmation & Word Review -->
+      <div id="sentSuccessBox" class="sent-success-box hidden">
+        <div class="sent-banner">
+          🎉 せんせいに ふでばこの がぞうを おくったよ！
+        </div>
+        <p style="margin:4px 0; font-weight:800; color:#475569;">
+          タップすると ゆっくり えいごで 発音（はつおん）するよ！
+        </p>
+        <div class="modal-word-list" id="modalWordList"></div>
+        <div class="modal-buttons">
+          <button class="action-btn btn-read-all" id="modalReadAgainBtn" type="button">
+            🔊 もういちど ぜんぶ きく
+          </button>
+          <button class="action-btn btn-finish" id="modalCloseBtn" type="button">
+            👍 つづけて あそぶ
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tiny Corner Button for Teacher -->
+  <button class="teacher-corner-btn" id="teacherCornerBtn" type="button" title="先生用">
+    🔒 先生
+  </button>
+
+  <!-- Teacher Password Modal -->
+  <div class="modal-backdrop hidden" id="passwordModal">
+    <div class="modal-card" style="max-width: 420px;">
+      <h2 class="modal-title" style="font-size: 20px;">🔒 先生用ページ</h2>
+      <p style="margin:0; font-size:14px; font-weight:700; color:#475569;">
+        パスワードを入力してください
+      </p>
+      <input
+        type="password"
+        id="teacherPwInput"
+        class="name-input-field"
+        placeholder="パスワード"
+        autocomplete="off"
+      />
+      <div id="teacherPwError" class="pw-error-msg hidden">
+        パスワードがちがいます
+      </div>
+      <div class="modal-buttons">
+        <button class="action-btn btn-clear" id="pwCancelBtn" type="button">
+          キャンセル
+        </button>
+        <button class="action-btn btn-finish" id="pwSubmitBtn" type="button">
+          ひらく
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

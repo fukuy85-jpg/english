@@ -1,0 +1,1096 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>👩‍🏫 せんせい用ページ｜みんなのオリジナルふでばこ一覧</title>
+  <style>
+    :root {
+      --bg-top: #f0fdf4;
+      --bg-bottom: #e0f2fe;
+      --primary: #16a34a;
+      --primary-dark: #15803d;
+      --text-dark: #0f172a;
+      --text-soft: #475569;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      font-family: "Hiragino Maru Gothic ProN", "Rounded Mplus 1c", "BIZ UDPGothic", "Segoe UI", sans-serif;
+      background: linear-gradient(180deg, var(--bg-top) 0%, var(--bg-bottom) 100%);
+      color: var(--text-dark);
+    }
+
+    .container {
+      max-width: 1360px;
+      margin: 0 auto;
+      padding: 18px 22px 48px;
+    }
+
+    .header-bar {
+      background: #ffffff;
+      border-radius: 22px;
+      padding: 14px 22px;
+      border: 3px solid #86efac;
+      box-shadow: 0 8px 20px rgba(21, 128, 61, 0.1);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-bottom: 22px;
+    }
+
+    .header-title-wrap {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .header-badge {
+      background: #16a34a;
+      color: #ffffff;
+      font-weight: 900;
+      font-size: 14px;
+      padding: 6px 12px;
+      border-radius: 12px;
+    }
+
+    .header-title {
+      font-size: 24px;
+      font-weight: 900;
+      color: #15803d;
+      margin: 0;
+    }
+
+    .count-pill {
+      background: #fef3c7;
+      border: 2px solid #fcd34d;
+      color: #b45309;
+      font-weight: 900;
+      font-size: 16px;
+      padding: 5px 14px;
+      border-radius: 999px;
+    }
+
+    .sync-pill {
+      background: #dcfce7;
+      border: 2px solid #86efac;
+      color: #15803d;
+      font-weight: 800;
+      font-size: 13px;
+      padding: 5px 12px;
+      border-radius: 999px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .sync-dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: #22c55e;
+      box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.25);
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      border: none;
+      border-radius: 14px;
+      padding: 10px 16px;
+      font-size: 14px;
+      font-weight: 800;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      text-decoration: none;
+      transition: transform 0.15s;
+    }
+
+    .btn:active {
+      transform: scale(0.96);
+    }
+
+    .btn-refresh {
+      background: #e0f2fe;
+      color: #0369a1;
+      border: 2px solid #7dd3fc;
+    }
+
+    .btn-game {
+      background: #dcfce7;
+      color: #15803d;
+      border: 2px solid #86efac;
+    }
+
+    .btn-danger {
+      background: #fee2e2;
+      color: #b91c1c;
+      border: 2px solid #fca5a5;
+    }
+
+    /* Submissions Grid */
+    .submissions-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+      gap: 20px;
+    }
+
+    .submission-card {
+      background: #ffffff;
+      border-radius: 24px;
+      border: 3px solid #bbf7d0;
+      box-shadow: 0 10px 24px rgba(15, 23, 42, 0.08);
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      transition: transform 0.2s, border-color 0.2s;
+    }
+
+    .submission-card:hover {
+      transform: translateY(-3px);
+      border-color: #22c55e;
+    }
+
+    .card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      border-bottom: 2px dashed #e2e8f0;
+      padding-bottom: 8px;
+    }
+
+    .student-name {
+      font-size: 20px;
+      font-weight: 900;
+      color: #0f172a;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .timestamp {
+      font-size: 12px;
+      font-weight: 700;
+      color: #64748b;
+    }
+
+    .case-img-box {
+      background: #f8fafc;
+      border-radius: 18px;
+      padding: 8px;
+      border: 2px solid #e2e8f0;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .case-img-box img {
+      width: 100%;
+      height: auto;
+      max-height: 220px;
+      object-fit: contain;
+      transition: transform 0.2s;
+    }
+
+    .case-img-box:hover img {
+      transform: scale(1.03);
+    }
+
+    .word-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .word-tag {
+      background: #f0fdf4;
+      border: 1.5px solid #86efac;
+      color: #166534;
+      font-size: 13px;
+      font-weight: 800;
+      padding: 4px 10px;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+
+    .word-tag:hover {
+      background: #dcfce7;
+    }
+
+    .card-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      margin-top: auto;
+      padding-top: 4px;
+    }
+
+    .btn-sm {
+      padding: 6px 12px;
+      font-size: 13px;
+      border-radius: 10px;
+    }
+
+    .empty-state {
+      background: rgba(255, 255, 255, 0.9);
+      border: 3px dashed #94a3b8;
+      border-radius: 28px;
+      padding: 56px 24px;
+      text-align: center;
+      color: #475569;
+    }
+
+    .empty-state h2 {
+      font-size: 24px;
+      margin: 0 0 8px;
+      color: #1e293b;
+    }
+
+    /* Fullscreen Zoom Modal for Classroom Presentation */
+    .zoom-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.72);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      padding: 20px;
+    }
+
+    .zoom-backdrop.hidden {
+      display: none;
+    }
+
+    .zoom-card {
+      background: #ffffff;
+      border-radius: 30px;
+      border: 6px solid #22c55e;
+      padding: 22px 28px;
+      max-width: 920px;
+      width: 100%;
+      box-shadow: 0 24px 50px rgba(0, 0, 0, 0.35);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 14px;
+      text-align: center;
+    }
+
+    .zoom-title {
+      font-size: 28px;
+      font-weight: 900;
+      color: #15803d;
+      margin: 0;
+    }
+
+    .zoom-img {
+      width: 100%;
+      max-height: 52vh;
+      object-fit: contain;
+      background: #f0fdf4;
+      border-radius: 22px;
+      padding: 10px;
+      border: 3px solid #bbf7d0;
+    }
+
+    .zoom-words {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: center;
+    }
+
+    .zoom-word-btn {
+      background: #f0fdf4;
+      border: 2px solid #86efac;
+      color: #166534;
+      font-size: 19px;
+      font-weight: 900;
+      padding: 8px 16px;
+      border-radius: 14px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header class="header-bar">
+      <div class="header-title-wrap">
+        <span class="header-badge">👩‍🏫 せんせい用</span>
+        <h1 class="header-title">みんなの オリジナルふでばこ</h1>
+        <span class="count-pill" id="submissionCount">0作品</span>
+        <span class="sync-pill" id="syncStatusPill" title="インターネット経由ですべての端末から自動受信します">
+          <span class="sync-dot"></span>
+          <span id="syncStatusText">全端末オンライン同期中</span>
+        </span>
+      </div>
+
+      <div class="header-actions">
+        <a class="btn btn-game" href="index.html">✏️ ふでばこづくり画面へ</a>
+        <button class="btn btn-refresh" id="refreshBtn" type="button">🔄 最新の状態に更新</button>
+        <button class="btn btn-danger" id="clearAllBtn" type="button">🗑️ すべて消去</button>
+      </div>
+    </header>
+
+    <div id="submissionsContainer"></div>
+  </div>
+
+  <!-- Zoom Modal for projecting a student's work -->
+  <div class="zoom-backdrop hidden" id="zoomModal">
+    <div class="zoom-card">
+      <h2 class="zoom-title" id="zoomTitle"></h2>
+      <img class="zoom-img" id="zoomImg" alt="ふでばこ拡大画像" />
+      <div class="zoom-words" id="zoomWords"></div>
+      <div style="display:flex; gap:12px; margin-top:6px;">
+        <button class="btn btn-game" id="zoomReadAllBtn" type="button">🔊 なかみを ゆっくり読む</button>
+        <a class="btn btn-refresh" id="zoomDownloadBtn" download="pencil_case.png">💾 画像を保存</a>
+        <button class="btn btn-danger" id="zoomCloseBtn" type="button">✖ とじる</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Password Lock Screen if teacher.html is opened directly -->
+  <div class="zoom-backdrop hidden" id="teacherLockModal" style="background: rgba(15, 23, 42, 0.92);">
+    <div class="zoom-card" style="max-width: 420px;">
+      <h2 class="zoom-title" style="font-size: 22px;">🔒 先生用ページ</h2>
+      <p style="margin:0; font-weight:800; color:#475569;">パスワードを入力してください</p>
+      <input
+        type="password"
+        id="directPwInput"
+        placeholder="パスワード"
+        style="width:100%; font-size:20px; font-weight:800; padding:10px 14px; border-radius:12px; border:3px solid #86efac; text-align:center;"
+      />
+      <div id="directPwError" style="color:#dc2626; font-weight:800; font-size:14px; display:none;">
+        パスワードがちがいます
+      </div>
+      <div style="display:flex; gap:12px;">
+        <a class="btn btn-danger" href="index.html">もどる</a>
+        <button class="btn btn-game" id="directPwSubmitBtn" type="button">ひらく</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const STORAGE_KEY = "pencil_case_submissions_v1";
+    const SYNC_META_KEY = "pencil_case_sync_meta_v1";
+    const CLOUD_TOPIC = "green_pencil_case_eae1bd9c_v1";
+    const CLOUD_BASE_URL = `https://ntfy.sh/${CLOUD_TOPIC}`;
+    const broadcastChannel =
+      "BroadcastChannel" in window ? new BroadcastChannel("pencil_case_channel") : null;
+
+    // =========================================================
+    // Stationery & Sticker Catalog for Reconstructing Images
+    // =========================================================
+    const COLORS = [
+      { id: "red", en: "red", ja: "あか", hex: "#ef4444", dark: "#b91c1c" },
+      { id: "blue", en: "blue", ja: "あお", hex: "#3b82f6", dark: "#1d4ed8" },
+      { id: "yellow", en: "yellow", ja: "きいろ", hex: "#facc15", dark: "#ca8a04" },
+      { id: "green", en: "green", ja: "みどり", hex: "#22c55e", dark: "#15803d" },
+      { id: "pink", en: "pink", ja: "ピンク", hex: "#f472b6", dark: "#db2777" },
+      { id: "orange", en: "orange", ja: "オレンジ", hex: "#fb923c", dark: "#c2410c" },
+      { id: "purple", en: "purple", ja: "むらさき", hex: "#a855f7", dark: "#7e22ce" },
+      { id: "black", en: "black", ja: "くろ", hex: "#334155", dark: "#0f172a" },
+      { id: "white", en: "white", ja: "しろ", hex: "#f8fafc", dark: "#94a3b8" }
+    ];
+
+    const CATALOG_ITEMS = [
+      {
+        id: "pencil", en: "pencil", ja: "えんぴつ", width: 135, height: 28,
+        renderSvg: (c) => `<svg viewBox="0 0 200 40"><rect x="6" y="8" width="22" height="24" rx="6" fill="#fda4af" stroke="#be123c" stroke-width="2.5"/><rect x="24" y="8" width="12" height="24" fill="#cbd5e1" stroke="#475569" stroke-width="2.5"/><rect x="36" y="8" width="126" height="24" fill="${c.hex}" stroke="${c.dark}" stroke-width="2.5"/><line x1="36" y1="16" x2="162" y2="16" stroke="rgba(255,255,255,0.45)" stroke-width="3"/><polygon points="162,8 194,20 162,32" fill="#fde68a" stroke="#b45309" stroke-width="2.5" stroke-linejoin="round"/><polygon points="182,15.5 194,20 182,24.5" fill="${c.dark}"/></svg>`
+      },
+      {
+        id: "pen", en: "pen", ja: "ボールペン", width: 132, height: 29,
+        renderSvg: (c) => `<svg viewBox="0 0 190 42"><rect x="4" y="15" width="14" height="12" rx="4" fill="${c.dark}"/><rect x="16" y="9" width="136" height="24" rx="10" fill="${c.hex}" stroke="${c.dark}" stroke-width="2.5"/><rect x="112" y="9" width="32" height="24" fill="${c.dark}" opacity="0.35"/><path d="M 32 9 L 32 3 L 76 3 L 76 7" fill="none" stroke="${c.dark}" stroke-width="3.5" stroke-linecap="round"/><polygon points="150,11 184,21 150,31" fill="#e2e8f0" stroke="#475569" stroke-width="2.5" stroke-linejoin="round"/><circle cx="185" cy="21" r="2.2" fill="#0f172a"/></svg>`
+      },
+      {
+        id: "eraser", en: "eraser", ja: "けしごむ", width: 72, height: 44,
+        renderSvg: (c) => `<svg viewBox="0 0 100 62"><rect x="8" y="10" width="84" height="42" rx="9" fill="#ffffff" stroke="#94a3b8" stroke-width="2.5"/><rect x="8" y="10" width="58" height="42" rx="6" fill="${c.hex}" stroke="${c.dark}" stroke-width="2.5"/><rect x="16" y="18" width="42" height="26" rx="4" fill="rgba(255,255,255,0.88)"/><text x="37" y="35" font-size="11" font-weight="900" fill="${c.dark}" text-anchor="middle">ERASER</text></svg>`
+      },
+      {
+        id: "ruler", en: "ruler", ja: "じょうぎ", width: 150, height: 36,
+        renderSvg: (c) => `<svg viewBox="0 0 210 50"><rect x="6" y="8" width="198" height="34" rx="6" fill="${c.hex}" fill-opacity="0.88" stroke="${c.dark}" stroke-width="2.5"/>${[24, 42, 60, 78, 96, 114, 132, 150, 168, 186].map((x, i) => `<line x1="${x}" y1="8" x2="${x}" y2="${i % 2 === 0 ? 22 : 17}" stroke="${c.dark}" stroke-width="2.5"/>`).join("")}<circle cx="24" cy="30" r="5" fill="rgba(255,255,255,0.7)" stroke="${c.dark}" stroke-width="2"/></svg>`
+      },
+      {
+        id: "scissors", en: "scissors", ja: "はさみ", width: 120, height: 58,
+        renderSvg: (c) => `<svg viewBox="0 0 170 84"><polygon points="74,36 162,20 156,38 74,46" fill="#e2e8f0" stroke="#475569" stroke-width="2.5" stroke-linejoin="round"/><polygon points="74,48 162,64 156,46 74,38" fill="#cbd5e1" stroke="#475569" stroke-width="2.5" stroke-linejoin="round"/><circle cx="82" cy="42" r="4.5" fill="#64748b"/><ellipse cx="42" cy="24" rx="28" ry="17" fill="none" stroke="${c.hex}" stroke-width="10"/><ellipse cx="42" cy="24" rx="28" ry="17" fill="none" stroke="${c.dark}" stroke-width="2"/><ellipse cx="42" cy="60" rx="28" ry="17" fill="none" stroke="${c.hex}" stroke-width="10"/><ellipse cx="42" cy="60" rx="28" ry="17" fill="none" stroke="${c.dark}" stroke-width="2"/></svg>`
+      },
+      {
+        id: "glue", en: "glue", ja: "スティックのり", width: 94, height: 39,
+        renderSvg: (c) => `<svg viewBox="0 0 130 54"><rect x="6" y="13" width="12" height="28" rx="4" fill="${c.dark}"/><rect x="16" y="9" width="76" height="36" rx="6" fill="#ffffff" stroke="#64748b" stroke-width="2.5"/><rect x="30" y="14" width="50" height="26" rx="4" fill="${c.hex}"/><text x="55" y="31" font-size="12" font-weight="900" fill="#ffffff" text-anchor="middle">GLUE</text><rect x="92" y="9" width="30" height="36" rx="7" fill="${c.hex}" stroke="${c.dark}" stroke-width="2.5"/></svg>`
+      },
+      {
+        id: "crayon", en: "crayon", ja: "クレヨン", width: 114, height: 30,
+        renderSvg: (c) => `<svg viewBox="0 0 160 42"><rect x="8" y="9" width="118" height="24" rx="5" fill="${c.hex}" stroke="${c.dark}" stroke-width="2.5"/><rect x="24" y="9" width="84" height="24" fill="rgba(255,255,255,0.75)"/><ellipse cx="66" cy="21" rx="22" ry="7" fill="${c.hex}"/><polygon points="126,9 154,21 126,33" fill="${c.hex}" stroke="${c.dark}" stroke-width="2.5" stroke-linejoin="round"/></svg>`
+      },
+      {
+        id: "marker", en: "marker", ja: "カラーペン", width: 120, height: 33,
+        renderSvg: (c) => `<svg viewBox="0 0 170 46"><rect x="8" y="9" width="108" height="28" rx="8" fill="${c.hex}" stroke="${c.dark}" stroke-width="2.5"/><rect x="32" y="14" width="62" height="18" rx="5" fill="rgba(255,255,255,0.85)"/><text x="63" y="27" font-size="10" font-weight="900" fill="${c.dark}" text-anchor="middle">MARKER</text><rect x="116" y="7" width="44" height="32" rx="8" fill="${c.hex}" stroke="${c.dark}" stroke-width="2.5"/><line x1="126" y1="7" x2="126" y2="39" stroke="${c.dark}" stroke-width="3"/></svg>`
+      },
+      {
+        id: "sharpener", en: "sharpener", ja: "えんぴつけずり", width: 58, height: 49,
+        renderSvg: (c) => `<svg viewBox="0 0 80 68"><rect x="10" y="8" width="60" height="52" rx="12" fill="${c.hex}" stroke="${c.dark}" stroke-width="2.5"/><rect x="20" y="16" width="40" height="36" rx="8" fill="rgba(255,255,255,0.82)"/><circle cx="40" cy="34" r="10" fill="#334155"/><circle cx="40" cy="34" r="6" fill="#0f172a"/></svg>`
+      },
+      {
+        id: "notebook", en: "notebook", ja: "ミニノート", width: 72, height: 84,
+        renderSvg: (c) => `<svg viewBox="0 0 100 116"><rect x="14" y="8" width="76" height="100" rx="10" fill="${c.hex}" stroke="${c.dark}" stroke-width="2.5"/><rect x="26" y="24" width="52" height="32" rx="6" fill="#ffffff" stroke="${c.dark}" stroke-width="2"/><text x="52" y="44" font-size="11" font-weight="900" fill="${c.dark}" text-anchor="middle">NOTE</text>${[18, 34, 50, 66, 82, 96].map((y) => `<rect x="8" y="${y}" width="12" height="5" rx="2.5" fill="#475569"/>`).join("")}</svg>`
+      },
+      {
+        id: "cat", en: "cat", ja: "ねこ", width: 56, height: 56,
+        renderSvg: (c) => `<svg viewBox="0 0 70 70"><polygon points="14,28 18,8 32,20" fill="${c.hex}" stroke="#ffffff" stroke-width="3" stroke-linejoin="round"/><polygon points="56,28 52,8 38,20" fill="${c.hex}" stroke="#ffffff" stroke-width="3" stroke-linejoin="round"/><circle cx="35" cy="38" r="22" fill="${c.hex}" stroke="#ffffff" stroke-width="3.5"/><circle cx="27" cy="35" r="3.2" fill="#0f172a"/><circle cx="43" cy="35" r="3.2" fill="#0f172a"/><polygon points="35,40 32,44 38,44" fill="#f43f5e"/><path d="M 29 47 Q 35 51 41 47" fill="none" stroke="#0f172a" stroke-width="2.2" stroke-linecap="round"/></svg>`
+      },
+      {
+        id: "dog", en: "dog", ja: "いぬ", width: 56, height: 56,
+        renderSvg: (c) => `<svg viewBox="0 0 70 70"><ellipse cx="14" cy="36" rx="8" ry="15" transform="rotate(15 14 36)" fill="${c.dark}" stroke="#ffffff" stroke-width="3"/><ellipse cx="56" cy="36" rx="8" ry="15" transform="rotate(-15 56 36)" fill="${c.dark}" stroke="#ffffff" stroke-width="3"/><circle cx="35" cy="36" r="21" fill="${c.hex}" stroke="#ffffff" stroke-width="3.5"/><ellipse cx="35" cy="42" rx="10" ry="7.5" fill="#ffffff"/><circle cx="27" cy="32" r="3.2" fill="#0f172a"/><circle cx="43" cy="32" r="3.2" fill="#0f172a"/><ellipse cx="35" cy="39" rx="4.2" ry="3" fill="#0f172a"/><path d="M 31 45 Q 35 49 39 45" fill="none" stroke="#0f172a" stroke-width="2.2" stroke-linecap="round"/></svg>`
+      },
+      {
+        id: "star", en: "star", ja: "ほし", width: 54, height: 54,
+        renderSvg: (c) => `<svg viewBox="0 0 70 70"><polygon points="35,5 44,24 65,27 50,42 53,63 35,53 17,63 20,42 5,27 26,24" fill="${c.hex}" stroke="#ffffff" stroke-width="4" stroke-linejoin="round"/><circle cx="28" cy="32" r="3" fill="#0f172a"/><circle cx="42" cy="32" r="3" fill="#0f172a"/><path d="M 29 40 Q 35 46 41 40" fill="none" stroke="#0f172a" stroke-width="2.5" stroke-linecap="round"/></svg>`
+      },
+      {
+        id: "smile", en: "smile", ja: "にっこりマーク", width: 54, height: 54,
+        renderSvg: (c) => `<svg viewBox="0 0 70 70"><circle cx="35" cy="35" r="26" fill="${c.hex}" stroke="#ffffff" stroke-width="4"/><circle cx="25" cy="29" r="3.8" fill="#0f172a"/><circle cx="45" cy="29" r="3.8" fill="#0f172a"/><circle cx="19" cy="37" r="4" fill="#f43f5e" opacity="0.45"/><circle cx="51" cy="37" r="4" fill="#f43f5e" opacity="0.45"/><path d="M 22 39 Q 35 52 48 39" fill="none" stroke="#0f172a" stroke-width="3.5" stroke-linecap="round"/></svg>`
+      }
+    ];
+
+    function getColorObj(colorId) {
+      return COLORS.find((c) => c.id === colorId) || COLORS[0];
+    }
+
+    function getCatalogItem(itemId) {
+      return CATALOG_ITEMS.find((i) => i.id === itemId);
+    }
+
+    function buildPencilCaseSvgDataUrl(placedList, innerW = 760, innerH = 420) {
+      const pad = 26;
+      const totalW = innerW + pad * 2;
+      const totalH = innerH + pad * 2;
+
+      const itemsSvgMarkup = (placedList || [])
+        .map((placed) => {
+          const itemId = placed.i || placed.itemId;
+          const colorId = placed.c || placed.colorId;
+          const x = Number(placed.x) || 0;
+          const y = Number(placed.y) || 0;
+          const rot = Number(placed.r ?? placed.rotation) || 0;
+
+          const itemDef = getCatalogItem(itemId);
+          const colorObj = getColorObj(colorId);
+          if (!itemDef) return "";
+          const rawSvg = itemDef.renderSvg(colorObj).trim();
+          const vbMatch = rawSvg.match(/viewBox="([^"]+)"/i);
+          const viewBox = vbMatch ? vbMatch[1] : "0 0 100 100";
+          const innerContent = rawSvg
+            .replace(/^<svg[^>]*>/i, "")
+            .replace(/<\/svg>$/i, "");
+
+          const cx = pad + x;
+          const cy = pad + y;
+          const w = itemDef.width;
+          const h = itemDef.height;
+
+          return `
+            <g transform="translate(${cx}, ${cy}) rotate(${rot}) translate(${-w / 2}, ${-h / 2})">
+              <svg width="${w}" height="${h}" viewBox="${viewBox}">
+                ${innerContent}
+              </svg>
+            </g>
+          `;
+        })
+        .join("");
+
+      const pocketW = Math.round(innerW * 0.3);
+      const bandX = pad + Math.round(innerW * 0.38);
+
+      const masterSvg = `
+        <svg xmlns="http://www.w3.org/2000/svg" width="${totalW}" height="${totalH}" viewBox="0 0 ${totalW} ${totalH}">
+          <defs>
+            <linearGradient id="greenCaseGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#4ade80"/>
+              <stop offset="55%" stop-color="#22c55e"/>
+              <stop offset="100%" stop-color="#16a34a"/>
+            </linearGradient>
+            <pattern id="meshDots" width="12" height="12" patternUnits="userSpaceOnUse">
+              <circle cx="3" cy="3" r="1.5" fill="rgba(21, 128, 61, 0.18)"/>
+            </pattern>
+          </defs>
+          <rect x="4" y="4" width="${totalW - 8}" height="${totalH - 8}" rx="48"
+                fill="url(#greenCaseGrad)" stroke="#15803d" stroke-width="8"/>
+          <rect x="13" y="13" width="${totalW - 26}" height="${totalH - 26}" rx="40"
+                fill="none" stroke="rgba(255, 255, 255, 0.82)" stroke-width="3" stroke-dasharray="8 6"/>
+          <rect x="${pad}" y="${pad}" width="${innerW}" height="${innerH}" rx="34"
+                fill="#f0fdf4" stroke="rgba(21, 128, 61, 0.2)" stroke-width="2"/>
+          <rect x="${pad + 14}" y="${pad + 14}" width="${pocketW}" height="${innerH - 28}" rx="24"
+                fill="url(#meshDots)" stroke="rgba(21, 128, 61, 0.32)" stroke-width="3" stroke-dasharray="7 5"/>
+          <rect x="${bandX}" y="${pad}" width="36" height="${innerH}"
+                fill="rgba(22, 163, 74, 0.1)" stroke="rgba(21, 128, 61, 0.18)" stroke-width="2"/>
+          ${itemsSvgMarkup}
+        </svg>
+      `.trim();
+
+      return {
+        svgDataUrl: "data:image/svg+xml;charset=utf-8," + encodeURIComponent(masterSvg),
+        totalW,
+        totalH
+      };
+    }
+
+    function ensurePngDataUrl(sub) {
+      if (!sub || !sub.placedItems || sub._pngReady) return;
+      const { svgDataUrl, totalW, totalH } = buildPencilCaseSvgDataUrl(
+        sub.placedItems,
+        sub.innerW || 760,
+        sub.innerH || 420
+      );
+      if (!sub.imageDataUrl) {
+        sub.imageDataUrl = svgDataUrl;
+      }
+      const img = new Image();
+      img.onload = () => {
+        try {
+          const canvas = document.createElement("canvas");
+          canvas.width = totalW;
+          canvas.height = totalH;
+          const ctx = canvas.getContext("2d");
+          ctx.drawImage(img, 0, 0, totalW, totalH);
+          sub.imageDataUrl = canvas.toDataURL("image/png");
+          sub._pngReady = true;
+          // Update any active DOM elements for this submission
+          document.querySelectorAll(`[data-sub-img="${sub.id}"]`).forEach((el) => {
+            el.src = sub.imageDataUrl;
+          });
+          document.querySelectorAll(`[data-sub-dl="${sub.id}"]`).forEach((el) => {
+            el.href = sub.imageDataUrl;
+          });
+          if (currentZoomSubmission && currentZoomSubmission.id === sub.id) {
+            document.getElementById("zoomImg").src = sub.imageDataUrl;
+            document.getElementById("zoomDownloadBtn").href = sub.imageDataUrl;
+          }
+        } catch (e) {}
+      };
+      img.src = svgDataUrl;
+    }
+
+    function normalizeSubmission(raw) {
+      if (!raw || !raw.id) return null;
+      const placedItems = raw.placedItems || raw.p || null;
+      const innerW = Number(raw.innerW || raw.w) || 760;
+      const innerH = Number(raw.innerH || raw.h) || 420;
+      let items = Array.isArray(raw.items) ? raw.items : null;
+      if (!items && Array.isArray(placedItems)) {
+        items = placedItems
+          .map((p) => {
+            const def = getCatalogItem(p.i || p.itemId);
+            return def ? { en: def.en, ja: def.ja, colorId: p.c || p.colorId } : null;
+          })
+          .filter(Boolean);
+      }
+
+      let imageDataUrl = raw.imageDataUrl || "";
+      if (!imageDataUrl && Array.isArray(placedItems)) {
+        imageDataUrl = buildPencilCaseSvgDataUrl(placedItems, innerW, innerH).svgDataUrl;
+      }
+
+      const sub = {
+        id: String(raw.id),
+        ts: Number(raw.ts) || 0,
+        studentName: String(raw.studentName || raw.n || "ななし"),
+        createdAt: String(raw.createdAt || raw.at || ""),
+        items: items || [],
+        innerW,
+        innerH,
+        placedItems,
+        imageDataUrl
+      };
+
+      if (placedItems && (!raw.imageDataUrl || raw.imageDataUrl.startsWith("data:image/svg"))) {
+        ensurePngDataUrl(sub);
+      } else if (raw.imageDataUrl && raw.imageDataUrl.startsWith("data:image/png")) {
+        sub._pngReady = true;
+      }
+      return sub;
+    }
+
+    let submissions = [];
+    let currentZoomSubmission = null;
+    let sseConnection = null;
+
+    function getSyncMeta() {
+      try {
+        const raw = localStorage.getItem(SYNC_META_KEY);
+        if (raw) {
+          const parsed = JSON.parse(raw);
+          return {
+            lastClearedAt: Number(parsed.lastClearedAt) || 0,
+            deletedIds: Array.isArray(parsed.deletedIds) ? parsed.deletedIds : []
+          };
+        }
+      } catch (e) {}
+      return { lastClearedAt: 0, deletedIds: [] };
+    }
+
+    function saveSyncMeta(meta) {
+      try {
+        const trimmedIds = (meta.deletedIds || []).slice(-300);
+        localStorage.setItem(
+          SYNC_META_KEY,
+          JSON.stringify({
+            lastClearedAt: Number(meta.lastClearedAt) || 0,
+            deletedIds: trimmedIds
+          })
+        );
+      } catch (e) {}
+    }
+
+    function speakSlowly(text) {
+      if (!("speechSynthesis" in window) || !text) return;
+      window.speechSynthesis.cancel();
+      const parts = text.split("...").map((s) => s.trim()).filter(Boolean);
+      let idx = 0;
+      function next() {
+        if (idx >= parts.length) return;
+        const u = new SpeechSynthesisUtterance(parts[idx]);
+        u.lang = "en-US";
+        u.rate = 0.62;
+        u.onend = () => {
+          idx++;
+          if (idx < parts.length) setTimeout(next, 420);
+        };
+        window.speechSynthesis.speak(u);
+      }
+      next();
+    }
+
+    async function fetchCloudHistory(meta) {
+      const cloudMap = new Map();
+      const deletedSet = new Set(meta.deletedIds || []);
+      let lastClearedAt = Number(meta.lastClearedAt) || 0;
+
+      try {
+        const res = await fetch(`${CLOUD_BASE_URL}/json?poll=1&since=all`, {
+          cache: "no-store"
+        });
+        if (!res.ok) return { cloudList: [], lastClearedAt, deletedSet };
+        const text = await res.text();
+        const lines = text.split("\n").map((l) => l.trim()).filter(Boolean);
+
+        for (const line of lines) {
+          try {
+            const env = JSON.parse(line);
+            if (env.event !== "message" || !env.message) continue;
+            const payload = JSON.parse(env.message);
+            const evTs = Number(payload.ts) || (Number(env.time) ? Number(env.time) * 1000 : 0);
+
+            if (payload.t === "CLR") {
+              if (evTs > lastClearedAt) {
+                lastClearedAt = evTs;
+              }
+              cloudMap.clear();
+            } else if (payload.t === "DEL" && payload.id) {
+              deletedSet.add(String(payload.id));
+              cloudMap.delete(String(payload.id));
+            } else if (payload.t === "ADD" && payload.id) {
+              if (evTs >= lastClearedAt && !deletedSet.has(String(payload.id))) {
+                payload.ts = evTs;
+                const norm = normalizeSubmission(payload);
+                if (norm) cloudMap.set(norm.id, norm);
+              }
+            }
+          } catch (lineErr) {
+            // Ignore malformed line
+          }
+        }
+      } catch (err) {
+        // Offline or unreachable
+      }
+
+      return {
+        cloudList: Array.from(cloudMap.values()),
+        lastClearedAt,
+        deletedSet
+      };
+    }
+
+    async function loadSubmissions() {
+      const meta = getSyncMeta();
+
+      // 1. Read local submissions
+      let localList = [];
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        localList = raw ? JSON.parse(raw) : [];
+      } catch (e) {
+        localList = [];
+      }
+
+      // 2. Fetch Cloud Sync History (works across all devices on the internet)
+      const cloudTask = fetchCloudHistory(meta);
+
+      // 3. Also check /api/submissions (Netlify Functions / local server)
+      const serverTask = location.protocol.startsWith("http")
+        ? fetch("/api/submissions", { cache: "no-store" })
+            .then((r) => (r.ok ? r.json() : []))
+            .catch(() => [])
+        : Promise.resolve([]);
+
+      const [{ cloudList, lastClearedAt, deletedSet }, serverList] = await Promise.all([
+        cloudTask,
+        serverTask
+      ]);
+
+      // Persist updated sync metadata
+      saveSyncMeta({
+        lastClearedAt,
+        deletedIds: Array.from(deletedSet)
+      });
+
+      const mergedMap = new Map();
+      const allCandidates = [
+        ...(Array.isArray(serverList) ? serverList : []),
+        ...cloudList,
+        ...(Array.isArray(localList) ? localList : [])
+      ];
+
+      allCandidates.forEach((raw) => {
+        if (!raw || !raw.id) return;
+        const idStr = String(raw.id);
+        if (deletedSet.has(idStr)) return;
+        const itemTs = Number(raw.ts) || extractTimestampFromId(idStr);
+        if (lastClearedAt > 0 && itemTs > 0 && itemTs < lastClearedAt) return;
+
+        const existing = mergedMap.get(idStr);
+        if (!existing) {
+          const norm = normalizeSubmission({ ...raw, ts: itemTs });
+          if (norm) mergedMap.set(idStr, norm);
+        } else if (!existing._pngReady && raw.imageDataUrl && raw.imageDataUrl.startsWith("data:image/png")) {
+          existing.imageDataUrl = raw.imageDataUrl;
+          existing._pngReady = true;
+        }
+      });
+
+      submissions = Array.from(mergedMap.values()).sort(
+        (a, b) => (b.ts || extractTimestampFromId(b.id)) - (a.ts || extractTimestampFromId(a.id))
+      );
+
+      saveSubmissionsToLocal();
+      renderSubmissions();
+    }
+
+    function extractTimestampFromId(id) {
+      const m = String(id).match(/^sub_(\d+)_/);
+      return m ? Number(m[1]) : 0;
+    }
+
+    function saveSubmissionsToLocal() {
+      try {
+        // Save compact representation so localStorage never exceeds quota even with many students
+        const compactList = submissions.slice(0, 120).map((s) => ({
+          id: s.id,
+          ts: s.ts,
+          studentName: s.studentName,
+          createdAt: s.createdAt,
+          items: s.items,
+          innerW: s.innerW,
+          innerH: s.innerH,
+          placedItems: s.placedItems,
+          imageDataUrl: s.placedItems ? undefined : s.imageDataUrl
+        }));
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(compactList));
+      } catch (e) {}
+    }
+
+    function connectRealtimeCloudStream() {
+      if (sseConnection || typeof EventSource === "undefined") return;
+      try {
+        sseConnection = new EventSource(`${CLOUD_BASE_URL}/sse`);
+        sseConnection.onmessage = (ev) => {
+          try {
+            const env = JSON.parse(ev.data);
+            if (env.event !== "message" || !env.message) return;
+            const payload = JSON.parse(env.message);
+            const evTs = Number(payload.ts) || Date.now();
+            const meta = getSyncMeta();
+            const deletedSet = new Set(meta.deletedIds || []);
+
+            if (payload.t === "CLR") {
+              saveSyncMeta({
+                lastClearedAt: Math.max(meta.lastClearedAt || 0, evTs),
+                deletedIds: Array.from(deletedSet)
+              });
+              submissions = [];
+              saveSubmissionsToLocal();
+              renderSubmissions();
+            } else if (payload.t === "DEL" && payload.id) {
+              const delId = String(payload.id);
+              deletedSet.add(delId);
+              saveSyncMeta({
+                lastClearedAt: meta.lastClearedAt || 0,
+                deletedIds: Array.from(deletedSet)
+              });
+              submissions = submissions.filter((s) => s.id !== delId);
+              saveSubmissionsToLocal();
+              renderSubmissions();
+            } else if (payload.t === "ADD" && payload.id) {
+              const addId = String(payload.id);
+              if (deletedSet.has(addId)) return;
+              if (submissions.some((s) => s.id === addId)) return;
+              payload.ts = evTs;
+              const norm = normalizeSubmission(payload);
+              if (norm) {
+                submissions.unshift(norm);
+                saveSubmissionsToLocal();
+                renderSubmissions();
+              }
+            }
+          } catch (e) {}
+        };
+      } catch (err) {}
+    }
+
+    function deleteSubmission(id) {
+      const idStr = String(id);
+      const meta = getSyncMeta();
+      const deletedSet = new Set(meta.deletedIds || []);
+      deletedSet.add(idStr);
+      saveSyncMeta({
+        lastClearedAt: meta.lastClearedAt || 0,
+        deletedIds: Array.from(deletedSet)
+      });
+
+      submissions = submissions.filter((s) => s.id !== idStr);
+      saveSubmissionsToLocal();
+
+      // Broadcast deletion to cloud sync & server
+      fetch(CLOUD_BASE_URL, {
+        method: "POST",
+        body: JSON.stringify({ t: "DEL", id: idStr, ts: Date.now() })
+      }).catch(() => {});
+
+      if (location.protocol.startsWith("http")) {
+        fetch(`/api/submissions?id=${encodeURIComponent(idStr)}`, { method: "DELETE" }).catch(() => {});
+      }
+      renderSubmissions();
+    }
+
+    function renderSubmissions() {
+      const container = document.getElementById("submissionsContainer");
+      const countEl = document.getElementById("submissionCount");
+      countEl.textContent = `${submissions.length}作品`;
+
+      if (submissions.length === 0) {
+        container.innerHTML = `
+          <div class="empty-state">
+            <h2>📭 まだ 送信された ふでばこは ありません</h2>
+            <p>子どもたちがどの端末（タブレット・スマホ・PC）からでも「✨ かんせい！」→「📨 せんせいに おくる！」を押すと、ここに自動で一覧表示されます。</p>
+          </div>
+        `;
+        return;
+      }
+
+      const grid = document.createElement("div");
+      grid.className = "submissions-grid";
+
+      submissions.forEach((sub) => {
+        const card = document.createElement("div");
+        card.className = "submission-card";
+
+        const items = Array.isArray(sub.items) ? sub.items : [];
+        const tagsHtml = items
+          .map(
+            (it) =>
+              `<button type="button" class="word-tag" data-word="${escapeHtml(it.en)}">🔊 ${escapeHtml(it.en)}</button>`
+          )
+          .join("");
+
+        card.innerHTML = `
+          <div class="card-header">
+            <div class="student-name">🎒 ${escapeHtml(sub.studentName)} さん</div>
+            <div class="timestamp">${escapeHtml(sub.createdAt || "")}</div>
+          </div>
+          <div class="case-img-box" title="クリックで大きく表示">
+            <img data-sub-img="${escapeHtml(sub.id)}" src="${sub.imageDataUrl}" alt="${escapeHtml(sub.studentName)}さんのふでばこ" />
+          </div>
+          <div class="word-tags">${tagsHtml}</div>
+          <div class="card-footer">
+            <button type="button" class="btn btn-game btn-sm zoom-btn">🔍 大きく表示</button>
+            <div style="display:flex; gap:6px;">
+              <a data-sub-dl="${escapeHtml(sub.id)}" class="btn btn-refresh btn-sm" href="${sub.imageDataUrl}" download="${escapeHtml(sub.studentName)}_ふでばこ.png">💾 保存</a>
+              <button type="button" class="btn btn-danger btn-sm del-btn">削除</button>
+            </div>
+          </div>
+        `;
+
+        card.querySelector(".case-img-box").addEventListener("click", () => openZoomModal(sub));
+        card.querySelector(".zoom-btn").addEventListener("click", () => openZoomModal(sub));
+        card.querySelector(".del-btn").addEventListener("click", () => {
+          if (confirm(`${sub.studentName}さんの ふでばこを 削除しますか？`)) {
+            deleteSubmission(sub.id);
+          }
+        });
+
+        card.querySelectorAll(".word-tag").forEach((btn) => {
+          btn.addEventListener("click", () => {
+            speakSlowly(btn.getAttribute("data-word"));
+          });
+        });
+
+        grid.appendChild(card);
+      });
+
+      container.innerHTML = "";
+      container.appendChild(grid);
+    }
+
+    function openZoomModal(sub) {
+      currentZoomSubmission = sub;
+      document.getElementById("zoomTitle").textContent = `🎒 ${sub.studentName} さんの オリジナルふでばこ`;
+      document.getElementById("zoomImg").src = sub.imageDataUrl;
+      const dlBtn = document.getElementById("zoomDownloadBtn");
+      dlBtn.href = sub.imageDataUrl;
+      dlBtn.download = `${sub.studentName}_ふでばこ.png`;
+
+      const wordsBox = document.getElementById("zoomWords");
+      wordsBox.innerHTML = "";
+      (sub.items || []).forEach((it) => {
+        const b = document.createElement("button");
+        b.type = "button";
+        b.className = "zoom-word-btn";
+        b.textContent = `🔊 ${it.en} (${it.ja})`;
+        b.addEventListener("click", () => speakSlowly(it.en));
+        wordsBox.appendChild(b);
+      });
+
+      document.getElementById("zoomModal").classList.remove("hidden");
+    }
+
+    function escapeHtml(str) {
+      return String(str)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;");
+    }
+
+    document.getElementById("refreshBtn").addEventListener("click", loadSubmissions);
+
+    document.getElementById("clearAllBtn").addEventListener("click", () => {
+      if (confirm("送信された すべてのふでばこ画像を 消去しますか？")) {
+        const nowTs = Date.now();
+        saveSyncMeta({
+          lastClearedAt: nowTs,
+          deletedIds: []
+        });
+        submissions = [];
+        saveSubmissionsToLocal();
+
+        fetch(CLOUD_BASE_URL, {
+          method: "POST",
+          body: JSON.stringify({ t: "CLR", ts: nowTs })
+        }).catch(() => {});
+
+        if (location.protocol.startsWith("http")) {
+          fetch("/api/submissions", { method: "DELETE" }).catch(() => {});
+        }
+        renderSubmissions();
+      }
+    });
+
+    document.getElementById("zoomCloseBtn").addEventListener("click", () => {
+      document.getElementById("zoomModal").classList.add("hidden");
+    });
+
+    document.getElementById("zoomReadAllBtn").addEventListener("click", () => {
+      if (!currentZoomSubmission || !currentZoomSubmission.items) return;
+      const words = currentZoomSubmission.items.map((i) => i.en).join(" ... ");
+      speakSlowly(words);
+    });
+
+    // Clear auth when returning to student game screen so next click requires password again
+    document.querySelector(".btn-game[href='index.html']").addEventListener("click", () => {
+      try {
+        sessionStorage.removeItem("teacher_auth_ok");
+      } catch (e) {}
+    });
+
+    // Listen for real-time updates from index.html on same device
+    if (broadcastChannel) {
+      broadcastChannel.onmessage = (ev) => {
+        if (ev.data && ev.data.type === "NEW_SUBMISSION") {
+          loadSubmissions();
+        }
+      };
+    }
+
+    window.addEventListener("storage", (ev) => {
+      if (ev.key === STORAGE_KEY) {
+        loadSubmissions();
+      }
+    });
+
+    window.addEventListener("DOMContentLoaded", () => {
+      let authOk = false;
+      try {
+        authOk = sessionStorage.getItem("teacher_auth_ok") === "1";
+      } catch (e) {}
+
+      const lockModal = document.getElementById("teacherLockModal");
+      const pwInput = document.getElementById("directPwInput");
+      const pwError = document.getElementById("directPwError");
+
+      function startTeacherSync() {
+        loadSubmissions();
+        connectRealtimeCloudStream();
+        setInterval(loadSubmissions, 6000);
+      }
+
+      function verifyDirectPw() {
+        if (pwInput.value === "peach2026") {
+          try {
+            sessionStorage.setItem("teacher_auth_ok", "1");
+          } catch (e) {}
+          lockModal.classList.add("hidden");
+          startTeacherSync();
+        } else {
+          pwError.style.display = "block";
+          pwInput.select();
+        }
+      }
+
+      if (!authOk) {
+        lockModal.classList.remove("hidden");
+        setTimeout(() => pwInput.focus(), 80);
+      } else {
+        startTeacherSync();
+      }
+
+      document.getElementById("directPwSubmitBtn").addEventListener("click", verifyDirectPw);
+      pwInput.addEventListener("keydown", (e) => {
+        if (e.key === "Enter") {
+          e.preventDefault();
+          verifyDirectPw();
+        }
+      });
+    });
+  </script>
+</body>
+</html>
